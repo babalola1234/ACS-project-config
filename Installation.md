@@ -36,6 +36,16 @@ setsebool -P httpd_can_network_connect_db=1
 setsebool -P httpd_execmem=1
 setsebool -P httpd_use_nfs 1
 ```
+## seting up self-signed certificate for the nginx instance
+```
+sudo mkdir /etc/ssl/private
+
+sudo chmod 700 /etc/ssl/private
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/ACS.key -out /etc/ssl/certs/ACS.crt
+
+sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+```
 ## this section will instll amazon efs utils for mounting the target on the Elastic file system
 ```
 git clone https://github.com/aws/efs-utils
@@ -49,16 +59,6 @@ yum install -y rpm-build
 make rpm 
 
 yum install -y  ./build/amazon-efs-utils*rpm
-```
-## seting up self-signed certificate for the nginx instance
-```
-sudo mkdir /etc/ssl/private
-
-sudo chmod 700 /etc/ssl/private
-
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/ACS.key -out /etc/ssl/certs/ACS.crt
-
-sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 ```
 
 
@@ -96,7 +96,7 @@ make rpm
 yum install -y  ./build/amazon-efs-utils*rpm
 ```
 
-## seting up self-signed certificate for the apache  webserver instance
+## seting up self-signed certificate for the apache webserver instance
 ```
 yum install -y mod_ssl
 
